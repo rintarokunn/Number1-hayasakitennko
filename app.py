@@ -4,10 +4,6 @@ from openai import OpenAI
 # --- カスタムデザイン（ここを追加！） ---
 st.markdown("""
     <style>
-    /* 全体の背景を淡いグラデーションに */
-    .stApp {
-        background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-    }
     /* タイトルの色をエレガントな紫に */
     h1 {
         color: #6a11cb;
