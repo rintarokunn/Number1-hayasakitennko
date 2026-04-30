@@ -56,23 +56,23 @@ if prompt := st.chat_input("言われてモヤッとした言葉を教えて？"
     # 既存の answer = ... の部分をこれに書き換えて！
     with st.chat_message("assistant"):
         # 空の枠を作って、そこに一文字ずつ流し込む
-        container = st.empty()
-        full_response = ""
         
+        with st.spinner("天子があなたの言葉を浄化中よ... 宝石に変わるまで、少しだけ待ちなさい！"):
         # stream=True にすることで、小出しにデータを受け取る
-        stream = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": f"この言葉を魅力的に変えて：{prompt}"}
-            ],
-            stream=True,  # これが魔法の合言葉！
-        )
-        
-        for chunk in stream:
-            if chunk.choices[0].delta.content is not None:
-                full_response += chunk.choices[0].delta.content
-                container.markdown(full_response + "▌") # カーソル風の演出
+            stream = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {"role": "system", "content": SYSTEM_PROMPT},
+                    {"role": "user", "content": f"この言葉を魅力的に変えて：{prompt}"}
+                ],
+                stream=True,  # これが魔法の合言葉！
+            )
+            container = st.empty()
+            full_response = ""
+            for chunk in stream:
+                if chunk.choices[0].delta.content is not None:
+                    full_response += chunk.choices[0].delta.content
+                    container.markdown(full_response + "▌") # カーソル風の演出
         
         container.markdown(full_response) # 最後はカーソルを取って完成
     
