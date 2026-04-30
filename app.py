@@ -4,6 +4,22 @@ from openai import OpenAI
 # --- カスタムデザイン（ここを追加！） ---
 st.markdown("""
     <style>
+    .stApp {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+    
+    /* ユーザーのメッセージ */
+    [data-testid="stChatMessageUser"] {
+    background-color: #e0d7ff;
+    border-radius: 15px;
+    }
+    /* 天子（アシスタント）のメッセージ */
+    [data-testid="stChatMessageAssistant"] {
+    background-color: #ffffff;
+    border: 1px solid #6a11cb;
+    border-radius: 15px;
+    }
+    
     /* タイトルの色は紫で */
     h1 {
         color: #6a11cb;
