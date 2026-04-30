@@ -45,14 +45,6 @@ if prompt := st.chat_input("言われてモヤッとした言葉を教えて？"
         st.markdown(prompt)
 
     # OpenAIで変換実行
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": f"この言葉を魅力的に変えて：{prompt}"}
-        ]
-    )
-    
     # 既存の answer = ... の部分をこれに書き換えて！
     with st.chat_message("assistant"):
         # 空の枠を作って、そこに一文字ずつ流し込む
