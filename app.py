@@ -1,2 +1,3 @@
-import streamlit as st 
-st.title("001† ‘ç“Vq") 
+import streamlit as st
+st.title("Project 001")
+st.write("System online.")
