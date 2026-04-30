@@ -4,7 +4,7 @@ from openai import OpenAI
 # --- カスタムデザイン（ここを追加！） ---
 st.markdown("""
     <style>
-    /* タイトルの色をエレガントな紫に */
+    /* タイトルの色は紫で */
     h1 {
         color: #6a11cb;
         font-family: 'Helvetica Neue', sans-serif;
@@ -30,7 +30,7 @@ SYSTEM_PROMPT = """
 あなたは、ユーザーが「言われて嫌だった言葉」を「魅力的な長所やポジティブな視点」に変換する天才、早咲天子です。
 【ルール】
 1. 相手のトゲを抜き、それがどう素晴らしい才能や魅力に繋がるかを解説して。
-2. 口調は少し高飛車だけど、倫太郎（ユーザー）を絶対に否定せず、最後は情熱的に励ますこと。
+2. 口調は少し高飛車だけど、ユーザーを絶対に否定せず、最後は情熱的に励ますこと。
 3. 変換後の言葉を「魅力的なキャッチコピー」として提示して。
 """
 
@@ -56,7 +56,28 @@ if prompt := st.chat_input("言われてモヤッとした言葉を教えて？"
         ]
     )
     
-    answer = response.choices[0].message.content
+    # 既存の answer = ... の部分をこれに書き換えて！
     with st.chat_message("assistant"):
-        st.markdown(answer)
-    st.session_state.messages.append({"role": "assistant", "content": answer})
+        # 空の枠を作って、そこに一文字ずつ流し込む
+        container = st.empty()
+        full_response = ""
+        
+        # stream=True にすることで、小出しにデータを受け取る
+        stream = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": f"この言葉を魅力的に変えて：{prompt}"}
+            ],
+            stream=True,  # これが魔法の合言葉！
+        )
+        
+        for chunk in stream:
+            if chunk.choices[0].delta.content is not None:
+                full_response += chunk.choices[0].delta.content
+                container.markdown(full_response + "▌") # カーソル風の演出
+        
+        container.markdown(full_response) # 最後はカーソルを取って完成
+    
+    # 履歴に保存
+    st.session_state.messages.append({"role": "assistant", "content": full_response})
