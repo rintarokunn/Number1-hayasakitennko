@@ -4,31 +4,25 @@ from openai import OpenAI
 # --- カスタムデザイン（ここを追加！） ---
 st.markdown("""
     <style>
+    /* 全体の背景：少しだけ色をつけて、文字を見えやすくする */
     .stApp {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
     }
     
-    /* ユーザーのメッセージ */
-    [data-testid="stChatMessageUser"] {
-    background-color: #e0d7ff;
-    border-radius: 15px;
-    }
-    /* 天子（アシスタント）のメッセージ */
-    [data-testid="stChatMessageAssistant"] {
-    background-color: #ffffff;
-    border: 1px solid #6a11cb;
-    border-radius: 15px;
-    }
-    
-    /* タイトルの色は紫で */
+    /* タイトルの色を「濃い紫」に強制固定 */
     h1 {
-        color: #6a11cb;
-        font-family: 'Helvetica Neue', sans-serif;
+        color: #4b0082 !important;
+        text-align: center;
     }
-    /* 入力欄の枠を少し光らせる */
-    .stChatInputContainer {
-        border-radius: 20px;
-        box-shadow: 0 4px 12px rgba(106, 17, 203, 0.2);
+
+    /* サブヘッダーや一般テキストの色を「濃いグレー」に */
+    .stMarkdown p, .stSubheader p {
+        color: #333333 !important;
+    }
+
+    /* チャット入力欄の文字も見えやすく */
+    .stChatInput textarea {
+        color: #000000 !important;
     }
     </style>
     """, unsafe_allow_html=True)
