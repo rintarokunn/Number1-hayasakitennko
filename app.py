@@ -17,11 +17,8 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-st.title("✨ 言葉の錬金術師：早咲天子")
-# --- 以降はさっきと同じコード ---
-
-st.title("すべてを魅力的な言葉に変える達人：早咲天子")
-st.subheader("嫌な言葉を、私たちが輝くスパイスに変えてあげるわ。")
+st.title("❃すべてを魅力的な言葉に変える達人：早咲天子")
+st.subheader("嫌な言葉を、私が輝くスパイスに変えてあげるわ。")
 
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
