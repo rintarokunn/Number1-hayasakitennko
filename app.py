@@ -4,30 +4,47 @@ from openai import OpenAI
 # --- カスタムデザイン（ここを追加！） ---
 st.markdown("""
     <style>
-    /* 全体の背景：少しだけ色をつけて、文字を見えやすくする */
-    .stApp {
-        background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+    /* 全体の背景と文字色を強制 */
+    .stApp, .stAppViewMain {
+        background-color: white !important;
+        color: black !important;
     }
-    
-    /* タイトルの色を「濃い紫」に強制固定 */
-    h1 {
+
+    /* 1. スピナー（ロード中）の文字を絶対に見せる */
+    .stSpinner p, div[data-testid="stStatusWidget"] p {
         color: #4b0082 !important;
-        text-align: center;
+        font-weight: bold !important;
     }
 
-    /* サブヘッダーや一般テキストの色を「濃いグレー」に */
-    .stMarkdown p, .stSubheader p {
-        color: #333333 !important;
+    /* 2. 入力欄のヒント文字（プレースホルダー） */
+    ::placeholder {
+        color: #888888 !important;
+        opacity: 1; /* 透明度をオフにする */
     }
 
-    /* チャット入力欄の文字も見えやすく */
+    /* 3. あらゆるテキスト要素を網羅 */
+    h1, h2, h3, p, span, div, label {
+        color: black !important;
+    }
+
+    /* 4. チャット入力欄自体の文字色 */
     .stChatInput textarea {
-        color: #000000 !important;
+        color: black !important;
     }
     </style>
     """, unsafe_allow_html=True)
 
 st.title("❃すべてを魅力的な言葉に変える達人：早咲天子")
+# --- これを st.title の下あたりに入れてみて ---
+with st.sidebar:
+    st.header("🗂 状況設定")
+    # ここに入力した内容が context という変数に入るよ
+    context = st.text_area(
+        "どんな状況だった？", 
+        "例：私が忙しく料理をしている時に..."
+    )
+    st.write("※ここで設定した状況を踏まえて、天子が言葉を変換してくれるわ！")
+
 st.subheader("嫌な言葉を、私が輝くスパイスに変えてあげるわ。")
 
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
