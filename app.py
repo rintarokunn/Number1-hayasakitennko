@@ -32,36 +32,40 @@ if "messages" not in st.session_state:
 # チャット履歴表示
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+        st.markdown(message["content"]) 
+
 
 if prompt := st.chat_input("言われてモヤッとした言葉を教えて？"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # OpenAIで変換実行
-    # 既存の answer = ... の部分をこれに書き換えて！
-    with st.chat_message("assistant"):
-        # 空の枠を作って、そこに一文字ずつ流し込む
-        
-        with st.spinner("天子があなたの言葉を浄化中よ... 宝石に変わるまで、少しだけ待ちなさい！"):
-        # stream=True にすることで、小出しにデータを受け取る
+    # --- ここからがアシスタント（天子様）の回答エリア ---
+    with st.chat_message("assistant", avatar="👑"): # 👑でキャラ立ち！
+        with st.spinner("天子があなたの言葉を浄化中よ..."):
+            # 状況(context)をプロンプトに組み込む
+            full_prompt = f"状況：{context}\n言われた言葉：{prompt}"
+            
             stream = client.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[
                     {"role": "system", "content": SYSTEM_PROMPT},
-                    {"role": "user", "content": f"この言葉を魅力的に変えて：{prompt}"}
+                    {"role": "user", "content": full_prompt}
                 ],
-                stream=True,  # これが魔法の合言葉！
+                stream=True,
             )
+            
             container = st.empty()
             full_response = ""
             for chunk in stream:
                 if chunk.choices[0].delta.content is not None:
                     full_response += chunk.choices[0].delta.content
-                    container.markdown(full_response + "▌") # カーソル風の演出
+                    # 執筆中はプレーンなテキストで表示（カッコよさ重視！）
+                    container.markdown(full_response + "▌") 
         
-        container.markdown(full_response) # 最後はカーソルを取って完成
+        # --- 魔法の仕上げ！ ---
+        # 書き終わったら、空の箱（container）を st.success で上書きする
+        container.success(full_response) 
     
     # 履歴に保存
     st.session_state.messages.append({"role": "assistant", "content": full_response})
