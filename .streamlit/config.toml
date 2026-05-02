@@ -1,0 +1,6 @@
+[theme]
+primaryColor = "#6a11cb"          # アクセントカラー（紫）
+backgroundColor = "#ffffff"       # 全体の背景色（白）
+secondaryBackgroundColor = "#f0f2f6" # サイドバーなどの背景色
+textColor = "#31333f"             # 文字の色（濃いグレー）
+font = "sans serif"

@@ -1,39 +1,6 @@
 import streamlit as st
 from openai import OpenAI
 
-# --- カスタムデザイン（ここを追加！） ---
-st.markdown("""
-    <style>
-    /* 全体の背景と文字色を強制 */
-    .stApp, .stAppViewMain {
-        background-color: white !important;
-        color: black !important;
-    }
-
-    /* 1. スピナー（ロード中）の文字を絶対に見せる */
-    .stSpinner p, div[data-testid="stStatusWidget"] p {
-        color: #4b0082 !important;
-        font-weight: bold !important;
-    }
-
-    /* 2. 入力欄のヒント文字（プレースホルダー） */
-    ::placeholder {
-        color: #888888 !important;
-        opacity: 1; /* 透明度をオフにする */
-    }
-
-    /* 3. あらゆるテキスト要素を網羅 */
-    h1, h2, h3, p, span, div, label {
-        color: black !important;
-    }
-
-    /* 4. チャット入力欄自体の文字色 */
-    .stChatInput textarea {
-        color: black !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
 st.title("❃リフレーミングをする早咲天子")
 # --- これを st.title の下あたりに入れてみて ---
 with st.sidebar:
